@@ -38,27 +38,7 @@ function App() {
             <p>Fast home delivery service.</p>
           </div>
 
-  <div
-  className="card"
-  onClick={() => {
-    const name = prompt("Enter Your Name");
-    const phone = prompt("Enter Your Phone Number");
-
-    if (name && phone) {
-      const input = document.createElement("input");
-      input.type = "file";
-      input.accept = "image/*,.pdf";
-
-      input.onchange = () => {
-        alert(
-          "Prescription selected successfully for " + name
-        );
-      };
-
-      input.click();
-    }
-  }}
->
+<div className="card">
   <h3>Prescription Support</h3>
 <p>Upload and order medicines easily.</p>
 
