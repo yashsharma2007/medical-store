@@ -38,10 +38,13 @@ function App() {
             <p>Fast home delivery service.</p>
           </div>
 
-          <div className="card">
-            <h3>Prescription Support</h3>
-            <p>Upload and order medicines easily.</p>
-          </div>
+          <div
+  className="card"
+  onClick={() => alert("Upload Prescription Coming Soon")}
+>
+  <h3>Prescription Support</h3>
+  <p>Upload and order medicines easily.</p>
+</div>
 
           <div className="card">
             <h3>Healthcare Products</h3>
