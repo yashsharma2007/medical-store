@@ -60,7 +60,9 @@ function App() {
   }}
 >
   <h3>Prescription Support</h3>
-  <p>Upload and order medicines easily.</p>
+<p>Upload and order medicines easily.</p>
+
+<input type="file" accept="image/*,.pdf" />
 </div>
 
           <div className="card">
