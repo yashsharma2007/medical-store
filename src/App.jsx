@@ -38,9 +38,20 @@ function App() {
             <p>Fast home delivery service.</p>
           </div>
 
-          <div
+  <div
   className="card"
-  onClick={() => alert("Upload Prescription Coming Soon")}
+  onClick={() => {
+    const name = prompt("Enter Your Name");
+    const phone = prompt("Enter Your Phone Number");
+
+    if (name && phone) {
+      alert(
+        "Thank you " +
+          name +
+          "! Prescription upload feature will be added soon."
+      );
+    }
+  }}
 >
   <h3>Prescription Support</h3>
   <p>Upload and order medicines easily.</p>
