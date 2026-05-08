@@ -43,6 +43,14 @@ function App() {
 <p>Upload and order medicines easily.</p>
 
 <input type="file" accept="image/*,.pdf" />
+<br /><br />
+
+<a
+  href="https://wa.me/919350393521"
+  target="_blank"
+>
+  <button>Send on WhatsApp</button>
+</a>
 </div>
 
           <div className="card">
