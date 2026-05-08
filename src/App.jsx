@@ -73,7 +73,24 @@ function App() {
 
             <h3>Paracetamol</h3>
             <p>Fever and pain relief medicine.</p>
-            <button>Order Now</button>
+            <button
+  onClick={() => {
+    const quantity = prompt("Enter Quantity");
+
+    if (quantity) {
+      const total = Number(quantity) * 20;
+
+      alert(
+        "Paracetamol Order\n\nQuantity: " +
+          quantity +
+          "\nTotal Price: ₹" +
+          total
+      );
+    }
+  }}
+>
+  Order Now
+</button>
           </div>
 
           <div className="card">
