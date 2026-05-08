@@ -45,11 +45,17 @@ function App() {
     const phone = prompt("Enter Your Phone Number");
 
     if (name && phone) {
-      alert(
-        "Thank you " +
-          name +
-          "! Prescription upload feature will be added soon."
-      );
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*,.pdf";
+
+      input.onchange = () => {
+        alert(
+          "Prescription selected successfully for " + name
+        );
+      };
+
+      input.click();
     }
   }}
 >
