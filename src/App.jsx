@@ -69,9 +69,14 @@ function App() {
   const [submitted, setSubmitted] = useState(false)
   const [bill, setBill] = useState(null)
   const [paymentMethod, setPaymentMethod] = useState('upi')
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false)
 
   const handlePrintReceipt = () => {
     window.print()
+  }
+
+  const generateOrderRef = () => {
+    return `DMS${Math.floor(100000 + Math.random() * 900000)}`
   }
 
   const handleOrder = (name, price) => {
@@ -89,6 +94,7 @@ function App() {
     const subtotal = qty * price
     const serviceCharge = Math.max(5, Math.round(subtotal * 0.02))
     const total = subtotal + serviceCharge
+    const orderRef = generateOrderRef()
 
     setBill({
       name,
@@ -97,8 +103,11 @@ function App() {
       subtotal,
       serviceCharge,
       total,
+      orderRef,
+      date: new Date().toLocaleDateString('en-IN'),
     })
     setPaymentMethod('upi')
+    setPaymentConfirmed(false)
   }
 
   const handleChange = (event) => {
@@ -312,45 +321,80 @@ function App() {
                     <button
                       type="button"
                       className={`payment-chip ${paymentMethod === 'upi' ? 'active' : ''}`}
-                      onClick={() => setPaymentMethod('upi')}
+                      onClick={() => {
+                        setPaymentMethod('upi')
+                        setPaymentConfirmed(false)
+                      }}
                     >
                       UPI QR
                     </button>
                     <button
                       type="button"
                       className={`payment-chip ${paymentMethod === 'cod' ? 'active' : ''}`}
-                      onClick={() => setPaymentMethod('cod')}
+                      onClick={() => {
+                        setPaymentMethod('cod')
+                        setPaymentConfirmed(false)
+                      }}
                     >
                       Cash on delivery
                     </button>
                     <button
                       type="button"
                       className={`payment-chip ${paymentMethod === 'card' ? 'active' : ''}`}
-                      onClick={() => setPaymentMethod('card')}
+                      onClick={() => {
+                        setPaymentMethod('card')
+                        setPaymentConfirmed(false)
+                      }}
                     >
                       Card payment
                     </button>
                   </div>
 
                   <div className="qr-card" aria-label="Payment QR code preview">
-                    <div className="qr-label">Scan to pay</div>
-                    <img src={paytmQr} alt="Paytm QR code" className="qr-image" />
+                    <div className="qr-label">
+                      {paymentMethod === 'upi' ? 'Scan to pay' : 'Select UPI to show QR'}
+                    </div>
+                    {paymentMethod === 'upi' ? (
+                      <img src={paytmQr} alt="Paytm QR code" className="qr-image" />
+                    ) : (
+                      <p className="qr-disabled">
+                        Choose UPI payment so the QR code appears here for quick phone checkout.
+                      </p>
+                    )}
                   </div>
 
                   <p className="payment-note">
-                    {paymentMethod === 'upi' && `Scan the QR with any UPI app to pay ₹${bill.total} instantly.`}
+                    {paymentMethod === 'upi' && (
+                      <>Scan the QR with any UPI app to pay ₹{bill.total}. After payment, confirm the order on WhatsApp with this order reference so we can match your payment: <strong>{bill.orderRef}</strong>.</>
+                    )}
                     {paymentMethod === 'cod' && `Pay ₹${bill.total} at delivery for a convenient cash-on-delivery order.`}
                     {paymentMethod === 'card' && `Use your debit or credit card after we confirm your order on WhatsApp.`}
                   </p>
+                  {paymentMethod === 'upi' && (
+                    <p className="payment-help">
+                      If you open this site on your phone, scan the QR code in your UPI app, then tap “Confirm on WhatsApp” to send the order details and reference.
+                    </p>
+                  )}
 
-                  <a
-                    className="btn btn-primary"
-                    href={`https://wa.me/919350393521?text=${encodeURIComponent(`Hello Deepak Medical Store, I want to order ${bill.qty} ${bill.name}. Total bill: ₹${bill.total}. Payment method: ${paymentMethod}.`)}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Confirm on WhatsApp
-                  </a>
+                  <div className="payment-confirm-group">
+                    {paymentMethod === 'upi' && (
+                      <button
+                        type="button"
+                        className={`btn btn-secondary ${paymentConfirmed ? 'confirmed' : ''}`}
+                        onClick={() => setPaymentConfirmed(true)}
+                      >
+                        {paymentConfirmed ? 'Payment confirmed' : 'I have paid'}
+                      </button>
+                    )}
+                    <a
+                      className="btn btn-primary"
+                      href={`https://wa.me/919350393521?text=${encodeURIComponent(`Hello Deepak Medical Store, I want to order ${bill.qty} ${bill.name}. Total bill: ₹${bill.total}. Payment method: ${paymentMethod}. Order ref: ${bill.orderRef}.`)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Confirm on WhatsApp
+                    </a>
+                  </div>
                 </div>
 
                 <div className="receipt-card">
@@ -378,13 +422,34 @@ function App() {
                     <strong>{bill.qty}</strong>
                   </div>
                   <div className="receipt-row">
+                    <span>Order reference</span>
+                    <strong>{bill.orderRef}</strong>
+                  </div>
+                  <div className="receipt-row">
+                    <span>Payment status</span>
+                    <strong>{paymentMethod === 'upi' ? (paymentConfirmed ? 'Confirmed' : 'Pending') : 'Confirmed'}</strong>
+                  </div>
+                  <div className="receipt-row">
                     <span>Payment method</span>
                     <strong>{paymentMethod === 'upi' ? 'UPI QR' : paymentMethod === 'cod' ? 'Cash on delivery' : 'Card'}</strong>
+                  </div>
+                  <div className="receipt-row">
+                    <span>Order date</span>
+                    <strong>{bill.date}</strong>
                   </div>
                   <div className="receipt-row total-row">
                     <span>Total amount</span>
                     <strong>₹{bill.total}</strong>
                   </div>
+                  {paymentMethod === 'upi' && (
+                    <div className="receipt-qr">
+                      <span>Scan this QR with your phone UPI app to pay</span>
+                      <img src={paytmQr} alt="Paytm QR code" />
+                      <p className="receipt-instruction">
+                        After payment, send this order reference on WhatsApp so we can confirm your payment and process the order.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </>
             )}
