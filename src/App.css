@@ -347,11 +347,9 @@
   color: #7dd3fc;
 }
 
-.payment-section {
-  display: grid;
-  grid-template-columns: 1fr 180px;
-  gap: 20px;
-  align-items: center;
+  .payment-section {
+  gap: 24px;
+  align-items: start;
 }
 
 .payment-options {
@@ -400,10 +398,11 @@
 }
 
 .qr-image {
-  width: 260px;
-  height: 260px;
+  width: 320px;
+  height: 320px;
   object-fit: cover;
   border-radius: 20px;
+  max-width: 100%;
 }
 
 .payment-note {
