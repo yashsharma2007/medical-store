@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import paytmQr from './assets/paytm-qr.png'
+import paytmQr from './assets/paytm-qr.svg'
 import './App.css'
 
 const services = [
