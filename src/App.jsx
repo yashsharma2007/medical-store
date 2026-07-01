@@ -1,129 +1,267 @@
+import './App.css'
+
+const services = [
+  {
+    title: 'Fast Delivery',
+    description: 'Quick doorstep delivery for everyday medicines and essentials.',
+  },
+  {
+    title: 'Prescription Support',
+    description: 'Upload your prescription and get help placing the right order.',
+  },
+  {
+    title: 'Healthcare Essentials',
+    description: 'Find wellness products, vitamins, and daily care items in one place.',
+  },
+]
+
+const benefits = [
+  'Trusted local pharmacy support',
+  'Same-day order assistance',
+  'Quality products at fair prices',
+]
+
+const products = [
+  {
+    name: 'Paracetamol',
+    price: 20,
+    image:
+      'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=400',
+    description: 'Gentle relief for fever and body pain.',
+  },
+  {
+    name: 'Cough Syrup',
+    price: 80,
+    image:
+      'https://images.unsplash.com/photo-1628771065518-0d82f1938462?w=400',
+    description: 'Effective support for cold and cough symptoms.',
+  },
+  {
+    name: 'Vitamin Tablets',
+    price: 120,
+    image:
+      'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=400',
+    description: 'Daily wellness support for your routine.',
+  },
+]
+
+const testimonials = [
+  {
+    quote: 'Reliable service and fast delivery. I always get what I need on time.',
+    author: 'Ravi S.',
+  },
+  {
+    quote: 'Easy to order and very helpful with prescriptions. Highly recommended.',
+    author: 'Neha P.',
+  },
+]
+
 function App() {
+  const handleOrder = (name, price) => {
+    const quantity = window.prompt(`Enter quantity for ${name}`)
+
+    if (!quantity) return
+
+    const qty = Number(quantity)
+
+    if (Number.isNaN(qty) || qty <= 0) {
+      window.alert('Please enter a valid quantity.')
+      return
+    }
+
+    const total = qty * price
+    window.alert(`${name}\n\nQuantity: ${qty}\nTotal Price: ₹${total}`)
+  }
+
   return (
-    <div>
+    <div className="site-shell">
       <nav className="navbar">
-        <h2>Deepak Medical Store</h2>
+        <a className="brand" href="#home">
+          <span className="brand-icon" aria-hidden="true">
+            ✚
+          </span>
+          <span>Deepak Medical Store</span>
+        </a>
+
+        <input className="menu-toggle" type="checkbox" id="menu-toggle" />
+        <label className="menu-button" htmlFor="menu-toggle">
+          ☰
+        </label>
 
         <div className="nav-links">
-          <a href="#">Home</a>
-          <a href="#">Medicines</a>
-          <a href="#">Services</a>
-          <a href="#">Contact</a>
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#products">Medicines</a>
+          <a href="#contact">Contact</a>
         </div>
       </nav>
 
-      <section className="hero">
-        <div>
-          <h1>Your Trusted Medical Store</h1>
+      <main>
+        <section className="hero" id="home">
+          <div className="hero-content">
+            <span className="pill">Trusted local pharmacy</span>
+            <h1>Your trusted medical store in Ghaziabad.</h1>
+            <p>
+              Fast medicine delivery, prescription support, and daily healthcare essentials
+              brought to your doorstep with care.
+            </p>
 
-          <p>
-            Fast medicine delivery and healthcare products at your doorstep.
-          </p>
+            <div className="hero-actions">
+              <a
+                className="btn btn-primary"
+                href="https://wa.me/919350393521"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Order on WhatsApp
+              </a>
+              <a className="btn btn-secondary" href="#products">
+                Browse medicines
+              </a>
+            </div>
 
-          <a
-  href="https://wa.me/919350393521"
-  target="_blank"
->
-<button>Order Now</button>
-</a>
+            <ul className="hero-highlights">
+              <li>24/7 support assistance</li>
+              <li>Prescription guidance</li>
+              <li>Doorstep delivery</li>
+            </ul>
+          </div>
+
+          <div className="hero-card">
+            <div className="hero-card-badge">Trusted by local families</div>
+            <h3>Why choose us</h3>
+            <ul>
+              {benefits.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="section" id="about">
+          <div className="section-heading">
+            <span className="pill">About us</span>
+            <h2>Reliable care for your everyday health needs</h2>
+            <p>
+              We focus on helping families get trusted medicines and wellness products with
+              simple ordering and dependable support.
+            </p>
+          </div>
+        </section>
+
+        <section className="section" id="services">
+          <div className="section-heading">
+            <span className="pill">Services</span>
+            <h2>Everything you need in one place</h2>
+          </div>
+
+          <div className="card-container">
+            {services.map((service) => (
+              <article className="card" key={service.title}>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="card prescription-card">
+            <h3>Upload prescription</h3>
+            <p>Send your prescription and we will help you place your order quickly.</p>
+            <input type="file" accept="image/*,.pdf" />
+            <a
+              className="btn btn-primary btn-small"
+              href="https://wa.me/919350393521"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Send on WhatsApp
+            </a>
+          </div>
+        </section>
+
+        <section className="section" id="products">
+          <div className="section-heading">
+            <span className="pill">Popular medicines</span>
+            <h2>Browse our most requested items</h2>
+          </div>
+
+          <div className="card-container">
+            {products.map((product) => (
+              <article className="card product-card" key={product.name}>
+                <img src={product.image} alt={product.name} />
+                <h3>{product.name}</h3>
+                <p>{product.description}</p>
+                <div className="product-meta">
+                  <strong>₹{product.price}</strong>
+                  <button className="btn btn-secondary" onClick={() => handleOrder(product.name, product.price)}>
+                    Order now
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section" id="testimonials">
+          <div className="section-heading">
+            <span className="pill">Testimonials</span>
+            <h2>What our customers say</h2>
+          </div>
+
+          <div className="card-container">
+            {testimonials.map((item) => (
+              <article className="card testimonial-card" key={item.author}>
+                <p>“{item.quote}”</p>
+                <strong>{item.author}</strong>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section contact-section" id="contact">
+          <div className="contact-card">
+            <div>
+              <span className="pill">Contact us</span>
+              <h2>Need help placing an order?</h2>
+              <p>Call or message us for medicine availability and delivery support.</p>
+            </div>
+            <div className="contact-details">
+              <p>📞 +91 9350393521</p>
+              <p>📍 Ghaziabad, Uttar Pradesh</p>
+              <p>🕒 Open for medicine assistance and delivery requests</p>
+              <a className="btn btn-primary" href="https://wa.me/919350393521" target="_blank" rel="noreferrer">
+                Chat on WhatsApp
+              </a>
+            </div>
+          </div>
+
+          <div className="contact-card order-form-card">
+            <div>
+              <span className="pill">Quick order form</span>
+              <h2>Tell us what you need</h2>
+              <p>Share your medicine name and quantity and we will help you proceed.</p>
+            </div>
+            <form className="order-form">
+              <input type="text" placeholder="Medicine name" />
+              <input type="number" placeholder="Quantity" min="1" />
+              <textarea placeholder="Any extra details" rows="4"></textarea>
+              <button className="btn btn-primary" type="button">
+                Submit request
+              </button>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer className="footer">
+        <p>© 2026 Deepak Medical Store. Trusted care for your daily health needs.</p>
+        <div className="footer-links">
+          <a href="#home">Home</a>
+          <a href="#services">Services</a>
+          <a href="#contact">Contact</a>
         </div>
-      </section>
-
-      <section className="services">
-        <h2>Our Services</h2>
-
-        <div className="card-container">
-          <div className="card">
-            <h3>Medicine Delivery</h3>
-            <p>Fast home delivery service.</p>
-          </div>
-
-<div className="card">
-  <h3>Prescription Support</h3>
-<p>Upload and order medicines easily.</p>
-
-<input type="file" accept="image/*,.pdf" />
-<br /><br />
-
-<a
-  href="https://wa.me/919350393521"
-  target="_blank"
->
-  <button>Send on WhatsApp</button>
-</a>
-</div>
-
-          <div className="card">
-            <h3>Healthcare Products</h3>
-            <p>All healthcare essentials available.</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="products">
-        <h2>Popular Medicines</h2>
-
-        <div className="card-container">
-
-          <div className="card">
-            <img
-  src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=400"
-  alt="medicine"
-/>
-
-            <h3>Paracetamol</h3>
-            <p>Fever and pain relief medicine.</p>
-            <button
-  onClick={() => {
-    const quantity = prompt("Enter Quantity");
-
-    if (quantity) {
-      const total = Number(quantity) * 20;
-
-      alert(
-        "Paracetamol Order\n\nQuantity: " +
-          quantity +
-          "\nTotal Price: ₹" +
-          total
-      );
-    }
-  }}
->
-  Order Now
-</button>
-          </div>
-
-          <div className="card">
-            <img
-  src="https://images.unsplash.com/photo-1628771065518-0d82f1938462?w=400"
-  alt="medicine"
-/>
-
-            <h3>Cough Syrup</h3>
-            <p>Effective cough and cold relief.</p>
-            <button>Order Now</button>
-          </div>
-
-          <div className="card">
-            <img
-              src="https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=400"
-              alt="medicine"
-            />
-
-            <h3>Vitamin Tablets</h3>
-            <p>Daily health supplements.</p>
-            <button>Order Now</button>
-          </div>
-
-        </div>
-      </section>
-
-      <section className="contact">
-        <h2>Contact Us</h2>
-
-        <p>Phone: +91 9350393521</p>
-        <p>Location: Ghaziabad</p>
-      </section>
+      </footer>
     </div>
   )
 }
