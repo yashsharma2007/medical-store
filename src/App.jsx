@@ -70,6 +70,10 @@ function App() {
   const [bill, setBill] = useState(null)
   const [paymentMethod, setPaymentMethod] = useState('upi')
 
+  const handlePrintReceipt = () => {
+    window.print()
+  }
+
   const handleOrder = (name, price) => {
     const quantity = window.prompt(`Enter quantity for ${name}`)
 
@@ -347,6 +351,40 @@ function App() {
                   >
                     Confirm on WhatsApp
                   </a>
+                </div>
+
+                <div className="receipt-card">
+                  <div className="receipt-card-header">
+                    <div>
+                      <h3>Deepak Medical Store</h3>
+                      <p className="receipt-address">A-530, New Vijay Nagar Colony, New Vijay Nagar, Sector 9, Vijay Nagar, Ghaziabad, Uttar Pradesh 201009</p>
+                      <p className="receipt-address">Phone: +91 9350393521</p>
+                    </div>
+                    <button className="btn btn-secondary" type="button" onClick={handlePrintReceipt}>
+                      Print bill
+                    </button>
+                  </div>
+                  <div className="receipt-card-subtitle">Customer receipt</div>
+                  <div className="receipt-row">
+                    <span>Customer</span>
+                    <strong>{formData.name || 'Guest'}</strong>
+                  </div>
+                  <div className="receipt-row">
+                    <span>Medicine</span>
+                    <strong>{bill.name}</strong>
+                  </div>
+                  <div className="receipt-row">
+                    <span>Quantity</span>
+                    <strong>{bill.qty}</strong>
+                  </div>
+                  <div className="receipt-row">
+                    <span>Payment method</span>
+                    <strong>{paymentMethod === 'upi' ? 'UPI QR' : paymentMethod === 'cod' ? 'Cash on delivery' : 'Card'}</strong>
+                  </div>
+                  <div className="receipt-row total-row">
+                    <span>Total amount</span>
+                    <strong>₹{bill.total}</strong>
+                  </div>
                 </div>
               </>
             )}

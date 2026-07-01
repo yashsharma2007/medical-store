@@ -410,6 +410,88 @@
   color: #cbd5e1;
 }
 
+.receipt-card {
+  margin-top: 24px;
+  padding: 22px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  color: #0f172a;
+}
+
+.receipt-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.receipt-card-header h3 {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+  color: #0f172a;
+}
+
+.receipt-address {
+  margin: 2px 0;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.receipt-card-subtitle {
+  display: inline-flex;
+  margin-bottom: 16px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.receipt-row:last-child {
+  border-bottom: none;
+}
+
+.receipt-row strong {
+  color: #0f172a;
+}
+
+.receipt-card .pill {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .receipt-card,
+  .receipt-card * {
+    visibility: visible;
+  }
+
+  .receipt-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+  }
+}
+
 .billing-empty {
   padding: 20px 0;
   text-align: center;
