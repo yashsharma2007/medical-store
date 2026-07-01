@@ -329,6 +329,7 @@ function App() {
                   </div>
 
                   <div className="qr-card" aria-label="Payment QR code preview">
+                    <div className="qr-label">Scan to pay</div>
                     <img src={paytmQr} alt="Paytm QR code" className="qr-image" />
                   </div>
 
