@@ -164,10 +164,18 @@
   border: 1px solid #d1d5db;
   border-radius: 10px;
   font: inherit;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
 }
 
 .order-form-card {
   margin-top: 20px;
+}
+
+.form-success {
+  margin: 0;
+  color: #86efac;
+  font-weight: 600;
 }
 
 .hero-card {
@@ -260,6 +268,105 @@
   min-height: 180px;
 }
 
+.billing-card {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px;
+  border-radius: 24px;
+  background: rgba(15, 23, 42, 0.84);
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  box-shadow: 0 12px 35px rgba(2, 8, 23, 0.25);
+}
+
+.billing-summary {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 24px;
+}
+
+.bill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(2, 8, 23, 0.5);
+}
+
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #e2e8f0;
+}
+
+.total-row {
+  padding-top: 8px;
+  margin-top: 4px;
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  color: #7dd3fc;
+}
+
+.payment-section {
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 20px;
+  align-items: center;
+}
+
+.payment-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.payment-chip {
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f8fafc;
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payment-chip.active {
+  background: linear-gradient(135deg, #0ea5e9, #0f766e);
+  border-color: transparent;
+}
+
+.qr-card {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px;
+  border-radius: 18px;
+  background: white;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
+}
+
+.qr-card svg {
+  width: 120px;
+  height: 120px;
+}
+
+.payment-note {
+  margin: 0;
+  color: #cbd5e1;
+}
+
+.billing-empty {
+  padding: 20px 0;
+  text-align: center;
+}
+
+.billing-empty h3 {
+  margin-bottom: 6px;
+  color: #f8fafc;
+}
+
 .contact-section {
   padding-top: 10px;
 }
@@ -294,12 +401,20 @@
 
 @media (max-width: 900px) {
   .hero,
-  .contact-card {
+  .contact-card,
+  .billing-summary,
+  .payment-section {
     grid-template-columns: 1fr;
   }
 
   .card-container {
     grid-template-columns: 1fr;
+  }
+
+  .payment-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './App.css'
 
 const services = [
@@ -57,6 +58,17 @@ const testimonials = [
 ]
 
 function App() {
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    medicine: '',
+    quantity: '',
+    notes: '',
+  })
+  const [submitted, setSubmitted] = useState(false)
+  const [bill, setBill] = useState(null)
+  const [paymentMethod, setPaymentMethod] = useState('upi')
+
   const handleOrder = (name, price) => {
     const quantity = window.prompt(`Enter quantity for ${name}`)
 
@@ -69,8 +81,37 @@ function App() {
       return
     }
 
-    const total = qty * price
-    window.alert(`${name}\n\nQuantity: ${qty}\nTotal Price: ₹${total}`)
+    const subtotal = qty * price
+    const serviceCharge = Math.max(5, Math.round(subtotal * 0.02))
+    const total = subtotal + serviceCharge
+
+    setBill({
+      name,
+      price,
+      qty,
+      subtotal,
+      serviceCharge,
+      total,
+    })
+    setPaymentMethod('upi')
+  }
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    if (!formData.name || !formData.phone || !formData.medicine || !formData.quantity) {
+      window.alert('Please fill in your name, phone, medicine, and quantity.')
+      return
+    }
+
+    const message = `Hello Deepak Medical Store, I need ${formData.quantity} ${formData.medicine}. My name is ${formData.name}. Phone: ${formData.phone}. Notes: ${formData.notes || 'No additional notes'}`
+    window.open(`https://wa.me/919350393521?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer')
+    setSubmitted(true)
   }
 
   return (
@@ -92,6 +133,7 @@ function App() {
           <a href="#home">Home</a>
           <a href="#about">About</a>
           <a href="#services">Services</a>
+          <a href="#billing">Billing</a>
           <a href="#products">Medicines</a>
           <a href="#contact">Contact</a>
         </div>
@@ -203,6 +245,116 @@ function App() {
           </div>
         </section>
 
+        <section className="section" id="billing">
+          <div className="section-heading">
+            <span className="pill">Billing & payment</span>
+            <h2>Clear bills, simple payments, and QR support</h2>
+            <p>Choose the medicine, add the quantity, and get a ready bill with fast payment options.</p>
+          </div>
+
+          <div className="billing-card">
+            {!bill ? (
+              <div className="billing-empty">
+                <h3>No bill yet</h3>
+                <p>Select a medicine above to create a bill and choose a payment method.</p>
+              </div>
+            ) : (
+              <>
+                <div className="billing-summary">
+                  <div>
+                    <span className="pill">Current bill</span>
+                    <h3>{bill.name}</h3>
+                    <p>Instant bill summary for your order.</p>
+                  </div>
+                  <div className="bill-list">
+                    <div className="bill-row">
+                      <span>Price per unit</span>
+                      <strong>₹{bill.price}</strong>
+                    </div>
+                    <div className="bill-row">
+                      <span>Quantity</span>
+                      <strong>{bill.qty}</strong>
+                    </div>
+                    <div className="bill-row">
+                      <span>Subtotal</span>
+                      <strong>₹{bill.subtotal}</strong>
+                    </div>
+                    <div className="bill-row">
+                      <span>Service charge</span>
+                      <strong>₹{bill.serviceCharge}</strong>
+                    </div>
+                    <div className="bill-row total-row">
+                      <span>Total</span>
+                      <strong>₹{bill.total}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="payment-section">
+                  <div className="payment-options">
+                    <button
+                      type="button"
+                      className={`payment-chip ${paymentMethod === 'upi' ? 'active' : ''}`}
+                      onClick={() => setPaymentMethod('upi')}
+                    >
+                      UPI QR
+                    </button>
+                    <button
+                      type="button"
+                      className={`payment-chip ${paymentMethod === 'cod' ? 'active' : ''}`}
+                      onClick={() => setPaymentMethod('cod')}
+                    >
+                      Cash on delivery
+                    </button>
+                    <button
+                      type="button"
+                      className={`payment-chip ${paymentMethod === 'card' ? 'active' : ''}`}
+                      onClick={() => setPaymentMethod('card')}
+                    >
+                      Card payment
+                    </button>
+                  </div>
+
+                  <div className="qr-card" aria-label="Payment QR code preview">
+                    <svg viewBox="0 0 120 120" role="img" aria-label="QR code preview">
+                      <rect x="8" y="8" width="40" height="40" fill="#0f172a" />
+                      <rect x="16" y="16" width="24" height="24" fill="#ffffff" />
+                      <rect x="22" y="22" width="12" height="12" fill="#0f172a" />
+                      <rect x="72" y="8" width="40" height="40" fill="#0f172a" />
+                      <rect x="80" y="16" width="24" height="24" fill="#ffffff" />
+                      <rect x="86" y="22" width="12" height="12" fill="#0f172a" />
+                      <rect x="8" y="72" width="40" height="40" fill="#0f172a" />
+                      <rect x="16" y="80" width="24" height="24" fill="#ffffff" />
+                      <rect x="22" y="86" width="12" height="12" fill="#0f172a" />
+                      <rect x="48" y="48" width="24" height="24" fill="#0f172a" />
+                      <rect x="54" y="54" width="12" height="12" fill="#ffffff" />
+                      <rect x="72" y="72" width="16" height="16" fill="#0f172a" />
+                      <rect x="92" y="72" width="16" height="16" fill="#0f172a" />
+                      <rect x="72" y="92" width="16" height="16" fill="#0f172a" />
+                      <rect x="92" y="92" width="16" height="16" fill="#0f172a" />
+                    </svg>
+                  </div>
+
+                  <p className="payment-note">
+                    {paymentMethod === 'upi' && `Scan the QR with any UPI app to pay ₹${bill.total} instantly.`}
+                    {paymentMethod === 'cod' && `Pay ₹${bill.total} at delivery for a convenient cash-on-delivery order.`}
+                    {paymentMethod === 'card' && `Use your debit or credit card after we confirm your order on WhatsApp.`}
+                  </p>
+
+                  <a
+                    className="btn btn-primary"
+                    href={`https://wa.me/919350393521?text=${encodeURIComponent(`Hello Deepak Medical Store, I want to order ${bill.qty} ${bill.name}. Total bill: ₹${bill.total}. Payment method: ${paymentMethod}.`)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Confirm on WhatsApp
+                  </a>
+                </div>
+              </>
+            )}
+          </div>
+        </section>
+
         <section className="section" id="testimonials">
           <div className="section-heading">
             <span className="pill">Testimonials</span>
@@ -242,13 +394,16 @@ function App() {
               <h2>Tell us what you need</h2>
               <p>Share your medicine name and quantity and we will help you proceed.</p>
             </div>
-            <form className="order-form">
-              <input type="text" placeholder="Medicine name" />
-              <input type="number" placeholder="Quantity" min="1" />
-              <textarea placeholder="Any extra details" rows="4"></textarea>
-              <button className="btn btn-primary" type="button">
+            <form className="order-form" onSubmit={handleSubmit}>
+              <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Your name" required />
+              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone number" required />
+              <input type="text" name="medicine" value={formData.medicine} onChange={handleChange} placeholder="Medicine name" required />
+              <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" min="1" required />
+              <textarea name="notes" value={formData.notes} onChange={handleChange} placeholder="Any extra details" rows="4"></textarea>
+              <button className="btn btn-primary" type="submit">
                 Submit request
               </button>
+              {submitted && <p className="form-success">Thanks! Your request has been prepared for WhatsApp.</p>}
             </form>
           </div>
         </section>
@@ -259,6 +414,7 @@ function App() {
         <div className="footer-links">
           <a href="#home">Home</a>
           <a href="#services">Services</a>
+          <a href="#billing">Billing</a>
           <a href="#contact">Contact</a>
         </div>
       </footer>
