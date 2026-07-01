@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import paytmQr from './assets/paytm-qr.png'
 import './App.css'
 
 const services = [
@@ -252,6 +253,18 @@ function App() {
             <p>Choose the medicine, add the quantity, and get a ready bill with fast payment options.</p>
           </div>
 
+          <div className="delivery-banner">
+            <div>
+              <h3>Fast delivery & trusted support</h3>
+              <p>Free delivery on orders above ₹500, same-day assistance, and prescription guidance.</p>
+            </div>
+            <div className="delivery-badges">
+              <span>⚡ 30–45 mins</span>
+              <span>📦 Free delivery above ₹500</span>
+              <span>🩺 Prescription help</span>
+            </div>
+          </div>
+
           <div className="billing-card">
             {!bill ? (
               <div className="billing-empty">
@@ -316,23 +329,7 @@ function App() {
                   </div>
 
                   <div className="qr-card" aria-label="Payment QR code preview">
-                    <svg viewBox="0 0 120 120" role="img" aria-label="QR code preview">
-                      <rect x="8" y="8" width="40" height="40" fill="#0f172a" />
-                      <rect x="16" y="16" width="24" height="24" fill="#ffffff" />
-                      <rect x="22" y="22" width="12" height="12" fill="#0f172a" />
-                      <rect x="72" y="8" width="40" height="40" fill="#0f172a" />
-                      <rect x="80" y="16" width="24" height="24" fill="#ffffff" />
-                      <rect x="86" y="22" width="12" height="12" fill="#0f172a" />
-                      <rect x="8" y="72" width="40" height="40" fill="#0f172a" />
-                      <rect x="16" y="80" width="24" height="24" fill="#ffffff" />
-                      <rect x="22" y="86" width="12" height="12" fill="#0f172a" />
-                      <rect x="48" y="48" width="24" height="24" fill="#0f172a" />
-                      <rect x="54" y="54" width="12" height="12" fill="#ffffff" />
-                      <rect x="72" y="72" width="16" height="16" fill="#0f172a" />
-                      <rect x="92" y="72" width="16" height="16" fill="#0f172a" />
-                      <rect x="72" y="92" width="16" height="16" fill="#0f172a" />
-                      <rect x="92" y="92" width="16" height="16" fill="#0f172a" />
-                    </svg>
+                    <img src={paytmQr} alt="Paytm QR code" className="qr-image" />
                   </div>
 
                   <p className="payment-note">
