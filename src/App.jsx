@@ -3,16 +3,20 @@ import paytmQr from './assets/paytm-qr.png'
 import './App.css'
 
 const services = [
-  {
-    title: 'Fast Delivery',
+    {
+  icon: '🚚',
+  title: 'Fast Delivery',
     description: 'Quick doorstep delivery for everyday medicines and essentials.',
   },
-  {
-    title: 'Prescription Support',
+  
+    {
+  icon: '📄',
+  title: 'Prescription Support',
     description: 'Upload your prescription and get help placing the right order.',
   },
   {
-    title: 'Healthcare Essentials',
+  icon: '❤️',
+  title: 'Healthcare Essentials',
     description: 'Find wellness products, vitamins, and daily care items in one place.',
   },
 ]
@@ -70,12 +74,13 @@ function App() {
   const [bill, setBill] = useState(null)
   const [paymentMethod, setPaymentMethod] = useState('upi')
   const [paymentConfirmed, setPaymentConfirmed] = useState(false)
-
-  const handlePrintReceipt = () => {
-    window.print()
-  }
-
-  const generateOrderRef = () => {
+  const [search, setSearch] = useState("")
+  const filteredProducts = products.filter((product) =>
+  product.name.toLowerCase().includes(search.toLowerCase().trim())
+)
+  
+  console.log(search)
+const generateOrderRef = () => {
     return `DMS${Math.floor(100000 + Math.random() * 900000)}`
   }
 
@@ -147,8 +152,8 @@ function App() {
           <a href="#home">Home</a>
           <a href="#about">About</a>
           <a href="#services">Services</a>
-          <a href="#billing">Billing</a>
           <a href="#products">Medicines</a>
+          <a href="#billing">Billing</a>
           <a href="#contact">Contact</a>
         </div>
       </nav>
@@ -157,12 +162,11 @@ function App() {
         <section className="hero" id="home">
           <div className="hero-content">
             <span className="pill">Trusted local pharmacy</span>
-            <h1>Your trusted medical store in Ghaziabad.</h1>
-            <p>
-              Fast medicine delivery, prescription support, and daily healthcare essentials
-              brought to your doorstep with care.
-            </p>
-
+            <h1>Fast & Trusted Medicine Delivery in Ghaziabad</h1>
+           
+<p>
+Order genuine medicines online, upload your prescription, and get fast doorstep delivery from Deepak Medical Store in Vijay Nagar, Ghaziabad.
+</p>
             <div className="hero-actions">
               <a
                 className="btn btn-primary"
@@ -178,11 +182,42 @@ function App() {
             </div>
 
             <ul className="hero-highlights">
-              <li>24/7 support assistance</li>
-              <li>Prescription guidance</li>
-              <li>Doorstep delivery</li>
-            </ul>
+  <li>🕒 Open 7 Days a Week</li>
+  <li>🚚 30-Minute Delivery</li>
+  <li>💊 100% Genuine Medicines</li>
+  <li>📍 Vijay Nagar, Ghaziabad</li>
+</ul>
           </div>
+          <div className="hero-search">
+  <input
+    type="text"
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    placeholder="🔍 Search medicines (Paracetamol, Vitamin, Cough Syrup....)"
+  />
+
+  {search && (
+    <div className="search-results">
+      {filteredProducts.map((product) => (
+        <div
+          key={product.name}
+          className="search-item"
+          onClick={() => {
+  setSearch(product.name)
+
+  setTimeout(() => {
+    document.getElementById("products").scrollIntoView({
+      behavior: "smooth"
+    })
+  }, 100)
+}}
+        >
+          {product.name}
+        </div>
+      ))}
+    </div>
+  )}
+</div>
 
           <div className="hero-card">
             <div className="hero-card-badge">Trusted by local families</div>
@@ -215,7 +250,7 @@ function App() {
           <div className="card-container">
             {services.map((service) => (
               <article className="card" key={service.title}>
-                <h3>{service.title}</h3>
+                <h3>{service.icon} {service.title}</h3>
                 <p>{service.description}</p>
               </article>
             ))}
@@ -243,20 +278,29 @@ function App() {
           </div>
 
           <div className="card-container">
-            {products.map((product) => (
-              <article className="card product-card" key={product.name}>
-                <img src={product.image} alt={product.name} />
-                <h3>{product.name}</h3>
-                <p>{product.description}</p>
-                <div className="product-meta">
-                  <strong>₹{product.price}</strong>
-                  <button className="btn btn-secondary" onClick={() => handleOrder(product.name, product.price)}>
-                    Order now
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
+         {products
+  .filter((product) =>
+    product.name.toLowerCase().includes(search.toLowerCase().trim())
+  )
+  .map((product) => (
+    <article className="card product-card" key={product.name}>
+      <img src={product.image} alt={product.name} />
+      <h3>{product.name}</h3>
+      <p>{product.description}</p>
+
+      <div className="product-meta">
+        <strong>₹{product.price}</strong>
+
+        <button
+          className="btn btn-secondary"
+          onClick={() => handleOrder(product.name, product.price)}
+        >
+          Order now
+        </button>
+      </div>
+    </article>
+  ))}
+  </div>
         </section>
 
         <section className="section" id="billing">
